@@ -1,0 +1,739 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Web Development Mind Map</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 60px 20px;
+            min-height: 100vh;
+            background: #f9fbff;
+            font-family: Arial, Helvetica, sans-serif;
+            color: #222;
+            line-height: 1.6;
+        }
+
+        .tree {
+            max-width: 960px;
+            margin: 0 auto;
+            text-align: center;
+            position: relative;
+        }
+
+        .root {
+            display: inline-block;
+            background: #4a6bff;
+            color: white;
+            font-size: 2.2rem;
+            font-weight: bold;
+            padding: 18px 60px;
+            border-radius: 14px;
+            box-shadow: 0 6px 20px rgba(74, 107, 255, 0.35);
+            cursor: pointer;
+            user-select: none;
+            margin-bottom: 40px;
+        }
+
+        .strightline {
+            width: 5px;
+            height: 120px;
+            background: #777;
+            margin: 0 auto;
+            display: none;
+        }
+
+        .strightline.show {
+            display: block;
+        }
+
+        .level-1-row {
+            display: none;
+            justify-content: center;
+            align-items: center;
+            gap: 70px;
+            flex-wrap: nowrap;
+            margin: 30px 0 70px;
+            position: relative;
+        }
+
+        .level-1-row.show {
+            display: flex;
+        }
+
+        .level-1-row::before {
+            content: "";
+            position: absolute;
+            top: -25px;
+            left: 10%;
+            right: 10%;
+            height: 5px;
+            background: #888;
+        }
+
+        .level-1 {
+            background: white;
+            border: 4px solid;
+            border-radius: 12px;
+            padding: 16px 40px;
+            font-size: 1.5rem;
+            font-weight: 600;
+            cursor: pointer;
+            user-select: none;
+            min-width: 220px;
+            box-shadow: 0 5px 16px rgba(0, 0, 0, 0.1);
+            transition: none;
+            position: relative;
+        }
+
+        .html {
+            border-color: #4285f4;
+        }
+
+        .css {
+            border-color: #00bfa5;
+        }
+
+        .js {
+            border-color: #ffb300;
+        }
+
+        .level-1::before {
+            content: "";
+            position: absolute;
+            top: -25px;
+            left: 50%;
+            width: 5px;
+            height: 25px;
+            background: #888;
+            transform: translateX(-50%);
+        }
+
+        .children {
+            display: none;
+            margin: 40px auto 30px;
+            max-width: 900px;
+            position: relative;
+            text-align: left;
+        }
+
+        .children.show {
+            display: block;
+        }
+
+        .children::before {
+            content: "";
+            position: absolute;
+            top: -40px;
+            bottom: 0;
+            width: 5px;
+            background: #aaa;
+        }
+
+        .sub-children::before {
+            content: "";
+            position: absolute;
+            top: -20px;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: #bbb;
+        }
+
+        #htmlKids::before {
+            left: 40px;
+        }
+
+        #cssKids::before {
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        #jsKids::before {
+            right: 40px;
+            left: auto;
+        }
+
+        .leaf {
+            background: #f5f8ff;
+            border: 2px solid #d0dfff;
+            border-radius: 10px;
+            padding: 12px 24px;
+            margin: 14px 0;
+            font-size: 1.1rem;
+            position: relative;
+            cursor: pointer;
+            user-select: none;
+            transition: none;
+            text-align: left ;
+        }
+        
+        /* Force left alignment for HTML section content */
+        #htmlKids .leaf,
+        #htmlKids .sub-leaf {
+            text-align: left !important;
+        }
+        
+        .leaf:hover {
+            background: #e8f0ff;
+            border-color: #b0cfff;
+        }
+
+        .leaf::after {
+            position: absolute;
+            left: -70px;
+            top: 50%;
+            color: #4a6bff;
+            font-weight: bold;
+            font-size: 1.4rem;
+            transform: translateY(-50%);
+        }
+
+        .sub-tabs-container {
+            max-width: 960px;
+            margin: 30px auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+            display: block;
+            overflow: hidden;
+        }
+        
+        .sub-tabs-container .sub-tab-panel {
+            display: none;
+        }
+        
+        .sub-tabs-container .sub-tab-panel.active {
+            display: block;
+        }
+        
+        .sub-tab-header {
+            display: flex;
+            background: #f8f9fa;
+            border-bottom: 1px solid #e9ecef;
+        }
+        
+        .sub-tab-btn {
+            flex: 1;
+            padding: 16px 24px;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #495057;
+            transition: all 0.3s ease;
+            border-bottom: 3px solid transparent;
+        }
+        
+        .sub-tab-btn:hover {
+            background: #e9ecef;
+        }
+        
+        .sub-tab-btn.active {
+            color: #4a6bff;
+            background: #f0f3ff;
+            border-bottom-color: #4a6bff;
+        }
+        
+        .sub-tab-content {
+            padding: 24px;
+            min-height: 200px;
+        }
+        
+        .sub-tab-panel {
+            display: none;
+        }
+        
+        .sub-tab-panel.active {
+            display: block;
+        }
+        
+        .sub-tab-panel h3 {
+            margin: 0 0 16px 0;
+            font-size: 1.4rem;
+            color: #333;
+        }
+        
+        .sub-tab-panel p {
+            margin: 12px 0;
+            font-size: 1rem;
+            line-height: 1.6;
+            color: #555;
+        }
+
+        .sub-children {
+            display: none;
+            margin: 16px 0 20px 60px;
+            padding-left: 0;
+            position: relative;
+            flex-wrap: nowrap;
+            gap: 16px;
+            overflow-x: auto;
+        }
+
+        .sub-children.show {
+            display: flex;
+        }
+
+        .sub-leaf {
+            background: #e8f0ff;
+            border: 1px solid #c0d4ff;
+            border-radius: 8px;
+            padding: 10px 16px;
+            font-size: 0.96rem;
+            min-width: 180px;
+            max-width: 260px;
+            flex: 0 0 auto;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+            position: relative;
+        }
+
+        .sub-leaf::before {
+            content: "";
+            position: absolute;
+            top: -16px;
+            left: 50%;
+            width: 4px;
+            height: 16px;
+            background: #bbb;
+            transform: translateX(-50%);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="tree">
+        <div class="root" id="root">Web Development Mind Map</div>
+        <div class="strightline" id="strightline"></div>
+
+        <div class="level-1-row" id="level1">
+            <div class="level-1 html" id="html">HTML Basics</div>
+            <div class="level-1 css" id="css">CSS Basics</div>
+            <div class="level-1 js" id="js">JavaScript Basics</div>
+        </div>
+
+        <!-- HTML children -->
+        <div class="children" id="htmlKids" style="text-align: left !important;">
+            <div class="leaf" id="html-basic-structure" data-has-sub="true" style="text-align: left !important;">
+               <strong>Basic HTML Document Structure (DOCTYPE, html, head, body)</strong>
+            </div>
+            <div class="sub-children" id="html-basic-structure-kids">
+                <div class="sub-leaf">&lt;<strong>!DOCTYPE</strong>&gt; – declares HTML5 document type: This declaration tells the browser which version of HTML the document is written in, ensuring proper rendering and validation</div>
+                <div class="sub-leaf"><strong>html element</strong> – root element with lang attribute: The &lt;html&gt; element is tag is the root container for all HTML content; the lang attribute specifies the language for accessibility and SEO</div>
+                <div class="sub-leaf"><strong>head section</strong> – metadata, title, CSS links: Contains non-visible information like document title, character encoding, stylesheets, and meta tags for SEO</div>
+                <div class="sub-leaf"><strong>body section</strong> – visible content of the page: Contains all the content that users see and interact with in the browser</div>
+                <div class="sub-leaf"><strong>meta charset</strong> – specifies character encoding: Defines how characters are encoded, typically UTF-8 to support international characters and symbols</div>
+            </div>
+
+            <div class="leaf" id="html-semantic" data-has-sub="true">
+                <strong>Semantic elements (header, nav, main, article, footer...)</strong>
+            </div>
+            <div class="sub-children" id="html-semantic-kids">
+                <div class="sub-leaf"><strong>header</strong> – logo, title, navigation: Defines introductory content at the top of a page or section, typically containing branding and primary navigation</div>
+                <div class="sub-leaf"><strong>nav</strong> – main navigation links: Contains primary navigation links for the site, improving accessibility and SEO structure</div>
+                <div class="sub-leaf"><strong>main</strong> – primary content (one per page): Represents the main content area of the document, unique to each page</div>
+                <div class="sub-leaf"><strong>article vs section </strong> - article vs section: article for self-contained content (like blog posts), section for thematic grouping of content</div>
+                <div class="sub-leaf"><strong>footer</strong> – copyright, links: Contains footer information like copyright, contact info, and secondary navigation</div>
+            </div>
+
+            <div class="leaf" id="html-headings" data-has-sub="true">
+                <strong>Headings , Paragraphs and other tags</strong>
+            </div>
+            <div class="sub-children" id="html-headings-kids">
+                <div class="sub-leaf"><strong>h1</strong> – main page title (most important): The primary heading that defines the main topic of the page, crucial for SEO and accessibility</div>
+                <div class="sub-leaf"><strong>h2-h6</strong> – subheadings (hierarchical structure): Create a logical document outline with h2 as main sections, h3 as subsections, etc.</div>
+                <div class="sub-leaf"><strong>p element</strong> – paragraph text content: The standard element for blocks of text content, automatically creates line breaks</div>
+                <div class="sub-leaf"><strong>Paragraph spacing and line break ( &lt;br&gt tag );</strong> - : Browsers automatically add margin to paragraphs; use <br> for line breaks within paragraphs</div>
+            </div>
+            <div class="leaf" id="html-formatting" data-has-sub="true">
+                <strong>Text formatting tags (strong, em, mark, etc..)</strong>
+            </div>
+            <div class="sub-children" id="html-formatting-kids">
+                <div class="sub-leaf"><strong>strong</strong> – important text (bold): Semantic element that indicates text of strong importance, typically rendered as bold</div>
+                <div class="sub-leaf"><strong>em</strong> – emphasized text (italic): Semantic element for emphasis, usually displayed as italic text, important for screen readers</div>
+                <div class="sub-leaf"><strong>mark</strong> – highlighted text: Used to highlight text for reference purposes, appears with a yellow background by default</div>
+                <div class="sub-leaf"><strong>small</strong> – fine print: Renders text in a smaller font size, commonly used for disclaimers and legal text</div>
+                <div class="sub-leaf"><strong>sup & sub</strong> – superscript and subscript: Used for mathematical expressions, footnotes, and chemical formulas</div>
+            </div>
+            <div class="leaf" id="html-images" data-has-sub="true">
+                <strong>Image tag </strong>
+            </div>
+            <div class="sub-children" id="html-images-kids">
+                <div class="sub-leaf"><strong>src attribute</strong> – image URL: Specifies the path to the image file, can be relative or absolute URL</div>
+                <div class="sub-leaf"><strong>attribute</strong> – alternative text for image: Provides text description for accessibility and when images fail to load</div>
+                <div class="sub-leaf"><strong>width and height attributes</strong> Define image dimensions to prevent layout shifts and improve loading performance</div>
+                <div class="sub-leaf"><strong> images</strong> – srcset and sizes: Allows browsers to choose appropriate image based on screen size and resolution</div>
+                <div class="sub-leaf"><strong> Example of image tag</strong> – &lt;img src="image.jpg" alt="My IMG"&gt;</div>
+            </div>
+            <div class="leaf" id="html-lists" data-has-sub="true">
+                <strong>Lists tag</strong>
+            </div>
+            <div class="sub-children" id="html-lists-kids">
+                <div class="sub-leaf"><strong>ul</strong> – unordered list with bullet points: Creates lists with bullet points, ideal for non-sequential information like features or benefits</div>
+                <div class="sub-leaf"><strong>ol</strong> – ordered list with numbers: Creates numbered lists for sequential information like instructions or rankings</div>
+                <div class="sub-leaf"><strong>dl</strong> – description list with terms and definitions: Used for glossaries, FAQs, and key-value pairs with dt and dd elements</div>
+                <div class="sub-leaf"><strong>li</strong> – list item element: The container for each item within ul, ol, or dl lists</div>
+                <div class="sub-leaf"><strong>Nesting lists</strong> – lists within lists: Create hierarchical structures by placing lists inside other list items</div>
+                <div class="sub-leaf"><strong>Example of list tag</strong> – &lt;ul&gt;&lt;li&gt;Fruits&lt;ul&gt;&lt;li&gt;Apple&lt;/li&gt;&lt;li&gt;Banana&lt;/li&gt;&lt;/ul&gt;&lt;/li&gt;&lt;/ul&gt;</div>
+            </div>
+            <div class="leaf" id="html-tables" data-has-sub="true">
+                <strong>Table tag</strong>
+            </div>
+            <div class="sub-children" id="html-tables-kids">
+                <div class="sub-leaf"><strong>tr</strong> – table row cell: Defines a row inside a table</div>
+                <div class="sub-leaf"><strong>th</strong> – table header cell: Defines a heading cell in a table</div>
+                <div class="sub-leaf"><strong>td</strong> – table data cell: Defines a standard data cell</div>
+                <div class="sub-leaf"><strong>Example of table tag</strong> – &lt;table&gt;&lt;tr&gt;&lt;th&gt;Name&lt;/th&gt;&lt;th&gt;Age&lt;/th&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;Alex&lt;/td&gt;&lt;td&gt;22&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;</div>
+            </div>
+            <div class="leaf" id="html-media" data-has-sub="true">
+                <strong>Media tag</strong>
+            </div>
+            <div class="sub-children" id="html-media-kids">
+                <div class="sub-leaf"><strong>audio</strong> – audio container: Used to embed sound content in a web page</div>
+                <div class="sub-leaf"><strong>video</strong> – video container: Used to embed video content in a web page</div>
+                <div class="sub-leaf"><strong>source</strong> – media source: Specifies the media file and its format for audio or video</div>
+                <div class="sub-leaf"><strong>controls</strong> – playback controls: Adds play, pause, volume, and other controls</div>
+                <div class="sub-leaf"><strong>Example of audio tag</strong> – &lt;audio controls&gt;&lt;source src="song.mp3" type="audio/mpeg"&gt;&lt;/audio&gt;</div>
+                <div class="sub-leaf"><strong>Example of video tag</strong> – &lt;video width="320" height="240" controls&gt;&lt;source src="movie.mp4" type="video/mp4"&gt;&lt;/video&gt;</div>
+            </div>
+            <div class="leaf" id="html-progress" data-has-sub="true">
+                <strong>Progress , span and div tags</strong>
+            </div>
+            <div class="sub-children" id="html-progress-kids">
+                <div class="sub-leaf"><strong>progress</strong> – progress indicator: Displays the progress of a task or operation</div>
+                <div class="sub-leaf"><strong>value</strong> – current progress value: Specifies the current progress amount</div>
+                <div class="sub-leaf"><strong>max</strong> – maximum value: Defines the total value needed to complete the progress</div>
+                <div class="sub-leaf"><strong>span</strong> – inline container: Used to style or group small portions of text</div>
+                <div class="sub-leaf"><strong>div</strong> – block-level container: Used to group and structure larger sections of content</div>
+                <div class="sub-leaf"><strong>Example of progress tag</strong> – &lt;progress value="70" max="100"&gt;&lt;/progress&gt;</div>
+                <div class="sub-leaf"><strong>Example of span tag</strong> – &lt;p&gt;This is a &lt;span&gt;highlighted&lt;/span&gt; word&lt;/p&gt;</div>
+                <div class="sub-leaf"><strong>Example of div tag</strong> – &lt;div&gt;&lt;p&gt;Content inside a div&lt;/p&gt;&lt;/div&gt;</div>
+            </div>
+            <div class="leaf" id="html-form" data-has-sub="true">
+                <strong>Form tags</strong>
+            </div>
+            </div>
+            <div class="sub-children" id="html-form-kids">
+                <div class="sub-leaf"><strong>form</strong> – form container: Used to collect and submit user input</div>
+                <div class="sub-leaf"><strong>input</strong> – input field: Used to collect data from the user</div>
+                <div class="sub-leaf"><strong>type</strong> – input type: Specifies the kind of data the input accepts (text, email, password, etc.)</div>
+                <div class="sub-leaf"><strong>name</strong> – input name: Identifies form data when submitted</div>
+                <div class="sub-leaf"><strong>placeholder</strong> – hint text: Displays a short hint inside the input field</div>
+                <div class="sub-leaf"><strong>required</strong> – mandatory field: Makes the input field compulsory</div>
+                <div class="sub-leaf"><strong>button</strong> – form button: Used to submit or reset the form</div>
+                <div class="sub-leaf"><strong>Example of form tag</strong> – &lt;form&gt;&lt;label&gt;Name&lt;/label&gt;&lt;input type="text" required&gt;&lt;button&gt;Submit&lt;/button&gt;&lt;/form&gt;</div>
+            </div>
+        </div>
+
+        <!-- CSS children -->
+        <div class="children" id="cssKids">
+            <div class="leaf" id="css-methods" data-has-sub="true">
+                <strong>Ways to apply CSS (Inline, Internal, External)</strong>
+            </div>
+            <div class="sub-children" id="css-methods-kids">
+                <div class="sub-leaf"><strong>Inline styles</strong> – style attribute on elements: Direct CSS applied to HTML elements using the style attribute, highest specificity but not reusable</div>
+                <div class="sub-leaf"><strong>Internal styles</strong> – <code>&lt;style&gt;</code> tag in <code>&lt;head&gt; &lt;/head&gt;</code>: CSS rules placed within <code>&lt;style&gt;</code> tag in <code>&lt;head&gt; &lt;/head&gt;</code>: CSS rules placed within <code>&lt;style&gt;</code> tag in <code>&lt;style&gt;</code> tags in the document head, scoped to that document</div>
+                <div class="sub-leaf"><strong>External stylesheets</strong> – separate .css files: External CSS files linked via separate CSS file: &lt;link rel="stylesheet" href="styles.css"&gt;tag, promotes reusability and maintainability</div>
+            </div>
+            <div class="leaf" id="css-selectors" data-has-sub="true">
+                <strong>Selectors in CSS</strong>
+            </div>
+            <div class="sub-children" id="css-selectors-kids">
+                <div class="sub-leaf"><strong>Element selector</strong> – selects HTML elements by tag name: p { color: red; }</div>
+                <div class="sub-leaf"><strong>Class selector</strong> – selects elements by class name: .box { background: blue; }</div>
+                <div class="sub-leaf"><strong>ID selector</strong> – selects an element by unique id: #header { font-size: 20px; }</div>
+                <div class="sub-leaf"><strong>Universal selector</strong> – selects all elements: * { margin: 0; padding: 0; }</div>
+                <div class="sub-leaf"><strong>Group selector</strong> – selects multiple elements: h1, h2, p { color: green; }</div>
+            </div>
+            <div class="leaf" id="css-box-model" data-has-sub="true">
+                <strong>Box Model & box-sizing</strong>
+            </div>
+            <div class="sub-children" id="css-box-model-kids">
+                <div class="sub-leaf"><strong>Content</strong> – actual content area: The innermost area where text, images, and other content are displayed</div>
+                <div class="sub-leaf"><strong>Padding</strong> – space inside border: Creates space between content and border, affects background color/gradient</div>
+                <div class="sub-leaf"><strong>Border</strong> – edge around padding: The line that surrounds the padding and content area</div>
+                <div class="sub-leaf"><strong>Margin</strong> – space outside border: Creates space between elements, affects element positioning</div>
+                <div class="sub-leaf"><strong>box-sizing:</strong> - content-box vs border-box: content-box (default) adds padding/border to width/height, border-box includes them in specified width/height</div>
+            </div>
+            <div class="leaf" id="css-font-text-color" data-has-sub="true">
+                <strong>Font, Text & Color Properties</strong>
+            </div>
+            <div class="sub-children" id="css-font-text-color-kids">
+                <div class="sub-leaf"><strong>font-family</strong> – sets the font type:Example: font-family: Arial, sans-serif;</div>
+                <div class="sub-leaf"><strong>font-size</strong> – controls text size:Example: font-size: 16px;</div>
+                <div class="sub-leaf"><strong>font-weight</strong> – controls text thickness:Example: font-weight: bold;</div>
+                <div class="sub-leaf"><strong>font-style</strong> – applies italic or normal style:Example: font-style: italic;</div>
+                <div class="sub-leaf"><strong>color</strong> – sets text color:Example: color: red;</div>
+                <div class="sub-leaf"><strong>background-color</strong> – sets background color:Example: background-color: lightblue;</div>
+                <div class="sub-leaf"><strong>text-align</strong> – aligns text horizontally:Example: text-align: center;</div>
+                <div class="sub-leaf"><strong>text-decoration</strong> – adds underline or line-through:Example: text-decoration: underline;</div>
+                <div class="sub-leaf"><strong>text-transform</strong> – changes letter case:Example: text-transform: uppercase;</div>
+                <div class="sub-leaf"><strong>line-height</strong> – controls space between lines:Example: line-height: 1.5;</div>
+            </div>
+        </div>
+
+        <!-- JS children -->
+        <div class="children" id="jsKids" style="text-align: left">
+            <div class="leaf" id="js-variables" data-has-sub="true">
+                <strong>var , let , const variables</strong>
+            </div>
+            <div class="sub-children" id="js-variables-kids">
+                <div class="sub-leaf"><strong>var</strong> – function scoped, hoisted: Variables declared with var are function-scoped and hoisted to the top of their function, initialized with undefined</div>
+                <div class="sub-leaf"><strong>let</strong> – block scoped, can be reassigned: Variables declared with let are block-scoped and cannot be accessed before declaration (Temporal Dead Zone)</div>
+                <div class="sub-leaf"><strong>const</strong> – block scoped, cannot be reassigned: Constants declared with const are block-scoped and must be initialized at declaration</div>
+                <div class="sub-leaf"><strong>Examples for variables</strong> - var a = 10 ; let b = 20 ; const c = 30 ;</div>
+            </div>
+            <div class="leaf" id="js-functions" data-has-sub="true">
+                <strong>Functions (declaration, arrow)</strong>
+            </div>
+            <div class="sub-children" id="js-functions-kids">
+                <div class="sub-leaf"><strong>Function declarations:</strong> – hoisted: Functions declared with function keyword are hoisted to the top of their scope and can be called before declaration</div>
+                <div class="sub-leaf"><strong>Function expressions:</strong> – not hoisted: Functions assigned to variables are not hoisted and must be defined before calling</div>
+                <div class="sub-leaf"><strong>Arrow functions:</strong> – no this binding: Arrow functions inherit this from enclosing scope, don't have their own this, arguments object, or prototype</div>
+                <div class="sub-leaf"><strong>Parameters and arguments:</strong> Parameters are function definition variables, arguments are the actual values passed when calling</div>
+                <div class="sub-leaf"><strong>Return statements and scope:</strong> Functions can return values and have access to variables in their lexical scope (closures)</div>
+                <div class="sub-leaf"><strong>Function Definition</strong> – a block of code that performs a task:Example:function greet() {console.log("Hello World");}</div>
+                <div class="sub-leaf"><strong>Function Call</strong> – runs the function:Example:greet();</div>
+                <div class="sub-leaf"><strong>Function with Parameter</strong> – accepts input values:Example:function add(a, b) {return a + b;}</div>
+                <div class="sub-leaf"><strong>Function Output</strong> – returns a result:Example:let result = add(5, 3);</div>
+            </div>
+            <div class="leaf" id="js-operations" data-has-sub="true">
+                <strong>JavaScript Operations</strong>
+            </div>
+            <div class="sub-children" id="js-operations-kids">
+                <div class="sub-leaf"><strong>Arithmetic Operators</strong> – perform mathematical calculations:Example: let sum = 10 + 5;</div>
+                <div class="sub-leaf"><strong>Assignment Operators</strong> – assign values to variables:Example: let x = 10;</div>
+                <div class="sub-leaf"><strong>Comparison Operators</strong> – compare two values:Example: 5 == "5", 5 === "5";</div>
+                <div class="sub-leaf"><strong>Logical Operators</strong> – work with boolean values:Example: (x > 5 && y < 10);</div>
+                <div class="sub-leaf"><strong>Increment / Decrement</strong> – increase or decrease value by 1:Example: x++, y--;</div>
+                <div class="sub-leaf"><strong>Conditional (Ternary) Operator</strong> – short form of if-else:Example: let result = (age >= 18) ? "Adult" : "Minor";</div>
+                <div class="sub-leaf"><strong>Type Operators</strong> – check data type:Example: typeof 25;</div>
+            </div>
+            <div class="leaf" id="js-array" data-has-sub="true">
+                <strong>JavaScript Array</strong>
+            </div>
+            <div class="sub-children" id="js-array-kids">
+                <div class="sub-leaf"><strong>Array Definition</strong> – an array stores multiple values in a single variable:Example:let numbers = [1, 2, 3];</div>
+                <div class="sub-leaf"><strong>Example 1: Access Element</strong> – access value using index:Example:numbers[0]; // 1</div>
+                <div class="sub-leaf"><strong>Example 2: Add Element</strong> – add value to array:Example:numbers.push(4);</div>
+                <div class="sub-leaf"><strong>Example 3: Loop Array</strong> – print all elements:Example:for (let i = 0; i < numbers.length; i++) {console.log(numbers[i]);}</div>
+                <div class="sub-leaf"><strong>Types of Arrays</strong> – different kinds of arrays:<br>• Single-Dimensional Array – let a = [1, 2, 3];<br>• Multi-Dimensional Array – let b = [[1, 2], [3, 4]];</div>
+            </div>
+            <div class="leaf" id="js-conditional-looping" data-has-sub="true">
+                <strong>JavaScript Conditional & Looping Statements</strong>
+            </div>
+            <div class="sub-children" id="js-conditional-looping-kids">
+                <div class="sub-leaf"><strong>if statement</strong> – executes code when condition is true:Example:if (age >= 18) {console.log("Eligible to vote");}</div>
+                <div class="sub-leaf"><strong>if-else statement</strong> – chooses between two blocks:Example:if (marks >= 35) {console.log("Pass");} else {console.log("Fail");}</div>
+                <div class="sub-leaf"><strong>else-if ladder</strong> – checks multiple conditions:Example:if (score >= 90) {console.log("A Grade");} else if (score >= 60) {console.log("B Grade");} else {console.log("C Grade");}</div>
+                <div class="sub-leaf"><strong>switch statement</strong> – selects code based on value:Example:switch(day) {case 1: console.log("Monday"); break;case 2: console.log("Tuesday"); break;default: console.log("Invalid day");}</div>
+                <div class="sub-leaf"><strong>for loop</strong> – runs code a fixed number of times:Example:for (let i = 1; i &lt;= 5; i++) {console.log(i);}</div>
+                <div class="sub-leaf"><strong>while loop</strong> – runs while condition is true:Example:let i = 1;while (i &lt;= 5) {console.log(i);i++;}</div>
+                <div class="sub-leaf"><strong>do-while loop</strong> – executes at least once:Example:let j = 1;do {console.log(j);j++;} while (j &lt;= 5);</div>
+            </div>
+        </div>
+    <!-- Sub-tabs Container -->
+    <div class="sub-tabs-container" id="subTabsContainer">
+        <div class="sub-tab-header">
+            <button class="sub-tab-btn active" data-tab="web-basics">Web Development Basics</button>
+        </div>
+        <div class="sub-tab-content">
+            <div class="sub-tab-panel active" id="web-basics">
+                <h3>Web Development Basics</h3>
+                <p><strong>Web browsers:</strong> Software applications that retrieve, render, and display web content (HTML, CSS, JavaScript).</p>
+                <p><strong>Web servers:</strong> Systems that store and serve web pages and resources to browsers via HTTP/HTTPS.</p>
+                <p><strong>MIME:</strong> Multipurpose Internet Mail Extensions; defines content types for files transmitted over the web.</p>
+                <p><strong>URL:</strong> Uniform Resource Locator; a reference (address) to a resource on the internet.</p>
+                <p><strong>HTTP:</strong> Hypertext Transfer Protocol; the foundation of data communication for the web.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Ensure HTML, CSS, and JS content is hidden by default
+        document.addEventListener("DOMContentLoaded", () => {
+            // Hide all children content by default
+            document.querySelectorAll(".children").forEach(el => {
+                el.classList.remove("show");
+            });
+            
+            // Show Web Development Basics content initially
+            const webBasicsPanel = document.getElementById("web-basics");
+            const webBasicsBtn = document.querySelector('[data-tab="web-basics"]');
+            
+            // Ensure Web Development Basics tab is active
+            webBasicsBtn.classList.add("active");
+            webBasicsPanel.classList.add("active");
+        });
+
+        // Root click
+        document.getElementById("root").addEventListener("click", () => {
+            const level1 = document.getElementById("level1");
+            const connector = document.getElementById("strightline");
+            const isOpen = level1.classList.toggle("show");
+            connector.classList.toggle("show", isOpen);
+
+            if (!isOpen) {
+                document
+                    .querySelectorAll(".children, .sub-children")
+                    .forEach((el) => {
+                        el.classList.remove("show");
+                    });
+            }
+        });
+
+        // Level 1 clicks
+        document.getElementById("html").addEventListener("click", () => {
+            const target = document.getElementById("htmlKids");
+            const isOpen = target.classList.contains("show");
+            if (isOpen) {
+                target.classList.remove("show");
+            } else {
+                document
+                    .querySelectorAll(".children")
+                    .forEach((el) => el.classList.remove("show"));
+                target.classList.add("show");
+                // Force left alignment for HTML section
+                const htmlLeaves = target.querySelectorAll('.leaf, .sub-leaf');
+                htmlLeaves.forEach(leaf => {
+                    leaf.style.textAlign = 'left';
+                });
+            }
+        });
+        document.getElementById("css").addEventListener("click", () => {
+            const target = document.getElementById("cssKids");
+            const isOpen = target.classList.contains("show");
+            if (isOpen) {
+                target.classList.remove("show");
+            } else {
+                document
+                    .querySelectorAll(".children")
+                    .forEach((el) => el.classList.remove("show"));
+                target.classList.add("show");
+            }
+        });
+        document.getElementById("js").addEventListener("click", () => {
+            const target = document.getElementById("jsKids");
+            const isOpen = target.classList.contains("show");
+            if (isOpen) {
+                target.classList.remove("show");
+            } else {
+                document
+                    .querySelectorAll(".children")
+                    .forEach((el) => el.classList.remove("show"));
+                target.classList.add("show");
+            }
+        });
+
+        // Manage only one open sub-children group at a time + auto-close others
+        const allSubContainers = document.querySelectorAll(".sub-children");
+
+        document
+            .querySelectorAll('.leaf[data-has-sub="true"]')
+            .forEach((leaf) => {
+                leaf.addEventListener("click", (e) => {
+                    e.stopPropagation();
+
+                    const targetSubId = leaf.id + "-kids";
+                    const targetSub = document.getElementById(targetSubId);
+
+                    if (!targetSub) return;
+
+                    const isCurrentlyOpen = targetSub.classList.contains("show");
+
+                    // Close ALL sub-children first
+                    allSubContainers.forEach((sub) => sub.classList.remove("show"));
+
+                    // Then open the clicked one (unless it was already open → toggle off)
+                    if (!isCurrentlyOpen) {
+                        targetSub.classList.add("show");
+                    }
+                });
+            });
+
+        // Sub-tab functionality
+        const subTabsContainer = document.getElementById("subTabsContainer");
+        const subTabBtns = document.querySelectorAll(".sub-tab-btn");
+        const subTabPanels = document.querySelectorAll(".sub-tab-panel");
+
+        // Tab switching logic
+        subTabBtns.forEach(btn => {
+            btn.addEventListener("click", () => {
+                const tabId = btn.getAttribute("data-tab");
+                
+                // Remove active class from all buttons and panels
+                subTabBtns.forEach(b => b.classList.remove("active"));
+                subTabPanels.forEach(p => p.classList.remove("active"));
+                
+                // Add active class to clicked button and corresponding panel
+                btn.classList.add("active");
+                document.getElementById(tabId).classList.add("active");
+            });
+        });
+
+        // Attach click handlers to main topics to show corresponding tabs
+        document.getElementById("root").addEventListener("click", () => {
+            // Show sub-tabs container
+            subTabsContainer.classList.add("show");
+            
+            // Activate Web Development Basics tab
+            subTabBtns.forEach(b => b.classList.remove("active"));
+            subTabPanels.forEach(p => p.classList.remove("active"));
+            
+            const webBasicsBtn = document.querySelector('[data-tab="web-basics"]');
+            const webBasicsPanel = document.getElementById("web-basics");
+            
+            webBasicsBtn.classList.add("active");
+            webBasicsPanel.classList.add("active");
+        });
+
+        document.getElementById("html").addEventListener("click", () => {
+            // Show sub-tabs container
+            subTabsContainer.classList.add("show");
+            
+            // Activate HTML Basics tab
+            subTabBtns.forEach(b => b.classList.remove("active"));
+            subTabPanels.forEach(p => p.classList.remove("active"));
+            
+            const htmlBtn = document.querySelector('[data-tab="html-basics"]');
+            const htmlPanel = document.getElementById("html-basics");
+            
+            htmlBtn.classList.add("active");
+            htmlPanel.classList.add("active");
+        });
+
+        document.getElementById("css").addEventListener("click", () => {
+            // Show sub-tabs container
+            subTabsContainer.classList.add("show");
+            
+            // Activate CSS Basics tab
+            subTabBtns.forEach(b => b.classList.remove("active"));
+            subTabPanels.forEach(p => p.classList.remove("active"));
+            
+            const cssBtn = document.querySelector('[data-tab="css-basics"]');
+            const cssPanel = document.getElementById("css-basics");
+            
+            cssBtn.classList.add("active");
+            cssPanel.classList.add("active");
+        });
+
+        document.getElementById("js").addEventListener("click", () => {
+            // Show sub-tabs container
+            subTabsContainer.classList.add("show");
+            
+            // Activate JavaScript Basics tab
+            subTabBtns.forEach(b => b.classList.remove("active"));
+            subTabPanels.forEach(p => p.classList.remove("active"));
+            
+            const jsBtn = document.querySelector('[data-tab="js-basics"]');
+            const jsPanel = document.getElementById("js-basics");
+            
+            jsBtn.classList.add("active");
+            jsPanel.classList.add("active");
+        });
+    </script>
+</body>
+</html>
